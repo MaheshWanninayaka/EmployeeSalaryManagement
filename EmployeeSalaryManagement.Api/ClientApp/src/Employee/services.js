@@ -13,7 +13,7 @@ async function SaveEmployee(loginModel) {
 
     try {
         const response = await axios.post(url, loginModel);
-        console.error('response:', response);
+        console.log('response:', response);
         return response.data;
 
     } catch (error) {

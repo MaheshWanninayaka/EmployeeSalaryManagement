@@ -30,9 +30,9 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
                 return "Error";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return ex.Message;
+                return "Error";
             }
         }
 

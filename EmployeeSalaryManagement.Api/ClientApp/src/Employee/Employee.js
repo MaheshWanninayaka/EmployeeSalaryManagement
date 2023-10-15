@@ -9,42 +9,48 @@ function Employee() {
     const [email, setEmail] = useState("");
     const [salary, setSalary] = useState(0);
     const [joinDate, setJoinDate] = useState("");
+    const [enableError, setEnableError] = useState(false);
 
-    //const handleNameChange = (value) => {
-    //    setFullName(value);
-    //}
+    const handleNameChange = (value) => {
+        setFullName(value);
+        setEnableError(false);
+    }
 
-    //const handleEmailChange = (value) => {
-    //    setEmail(value);
-    //}
-    //const handleSalaryChange = (value) => {
-    //    setSalary(value);
-    //}
-    //const handleDateChange = (value) => {
-    //    setJoinDate(value);
-    //}
+    const handleEmailChange = (value) => {
+        setEmail(value);
+        setEnableError(false);
+    }
+    const handleSalaryChange = (value) => {
+        setSalary(value);
+        setEnableError(false);
+    }
+    const handleDateChange = (value) => {
+        setJoinDate(value);
+        setEnableError(false);
+    }
 
     async function handleClear() {
         setFullName("");
         setEmail("");
         setSalary(0);
         setJoinDate("");
+        setEnableError(false);
 
         window.location.reload();
     }
 
     const navigate = useNavigate();
 
-    async function handleLogin() {
+    async function handleSave() {
         var data = { fullName: fullName, email: email, salary: salary, joinDate: joinDate };
         console.log("data", data)
         var result = await service.SaveEmployee(data);
         console.log("result", result)
-        if (result != null) {
-            navigate("/employee");
+        if (result.employeeId >0) {
+            navigate("/");
         }
         else {
-            //setenableerror(true);
+            setEnableError(true);
         }
     }
 
@@ -57,22 +63,22 @@ function Employee() {
             <div>
                 <div className="input-row">
                     <label className="label">Full name</label>
-                    <input type="text" id={fullName} placeholder="Enter fullname" onChange={(e) => setFullName(e.target.value)} />
+                    <input type="text" id={fullName} placeholder="Enter fullname" onChange={(e) => handleNameChange(e.target.value)} />
                 </div>
 
                 <div className="input-row">
                     <label className="label">Email</label>
-                    <input type="text" id={email} placeholder="Enter email" onChange={(e) => setEmail(e.target.value)} />
+                    <input type="text" id={email} placeholder="Enter email" onChange={(e) => handleEmailChange(e.target.value)} />
                 </div>
 
                 <div className="input-row">
                     <label className="label">Salary</label>
-                    <input type="number" id={salary} placeholder="Enter salary" onChange={(e) => setSalary(e.target.value)} />
+                    <input type="number" id={salary} placeholder="Enter salary" onChange={(e) => handleSalaryChange(e.target.value)} />
                 </div>
 
                 <div className="input-row">
                     <label className="label">Join date</label>
-                    <input type="date" id={joinDate} onChange={(e) => setJoinDate(e.target.value)} />
+                    <input type="date" id={joinDate} onChange={(e) => handleDateChange(e.target.value)} />
                 </div>
             </div>
 
@@ -81,9 +87,11 @@ function Employee() {
                 <div>
                     <button className="btn1" onClick={(e) => handleClear()}>Clear</button>
                 
-                    <button onClick={(e) => handleLogin()}>Save</button>
+                    <button onClick={(e) => handleSave()}>Save</button>
                 </div>
             </div>
+
+            {enableError ? <label className="red-label">Error saving employee... Please try again...</label> : null}
         </Fragment>
 
     )

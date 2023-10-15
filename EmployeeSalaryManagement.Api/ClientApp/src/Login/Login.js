@@ -40,11 +40,9 @@ function Login() {
         var data = { email: email, password: password };
         var accessToken = await service.Login(data);
 
-        localStorage.setItem("accessToken", accessToken);
-        console.log("localStorage", localStorage)
-
-
-        if (accessToken !=null) {
+        if (accessToken !== null && accessToken !== "Error") {
+            localStorage.setItem("accessToken", accessToken);
+            console.log("localStorage", localStorage)
             navigate("/employee");
         }
         else {
@@ -85,7 +83,7 @@ function Login() {
                 <button className="btn2" onClick={(e) => handleLogin()}>Login</button>
             </div>
 
-            {enableError ? <label className="red-label">Issue while logging</label> : null}
+            {enableError ? <label className="red-label">Incorrect Username or Password... Please try again...</label> : null}
         </Fragment>
 
     )
