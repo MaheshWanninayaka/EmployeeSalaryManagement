@@ -78,12 +78,12 @@ function EmpLogin() {
             <div className="label-container">
                 <label className="lbl" >Username/Email  </label>
 
-                <input className="input1" type="text" id="email" placeholder="Enter username/email" onChange={(e) => handleEmailChange(e.target.value)} />
+                <input className="input1" type="text" id="email" placeholder="Enter username/email" onChange={(e) => handleEmailChange(e.target.value)} value={email} />
                 {emailError && <p className="validation-error">Please enter a valid email.</p>}
             </div>
             <div className="label-container">
                 <label className="lbl">Password  </label>
-                <input className="input2" type="password" id="password" placeholder="Enter password" onChange={(e) => handlePasswordChange(e.target.value)} />
+                <input className="input2" type="password" id="password" placeholder="Enter password" onChange={(e) => handlePasswordChange(e.target.value)} value={password} />
                 {passwordError && <p className="validation-error">Please enter a password.</p>}
             </div>
 

@@ -16,6 +16,8 @@ function Employee() {
     var isEmployee = localStorage.getItem("isEmployee");
     console.log("isEmployee", isEmployee);
 
+    console.log("fullName", fullName);
+
     useEffect(() => {
         var userData = service.getUserDetailsFromToken();
 
@@ -59,13 +61,13 @@ function Employee() {
 
     async function GetEmployeeDetailsByEmpId(empID) {
         var details = await service.GetEmployeeDetailsByEmpId(empID);
-        console.log("details", details)
+        console.log("details", details.joinDate.split("T")[0])
 
         if (details !== null) {
-            setFullName(details.fullName);
+            setFullName(details.fullName.toString());
             setEmail(details.email);
             setSalary(details.salary);
-            setJoinDate(details.joinDate);
+            setJoinDate(details.joinDate.split("T")[0]);
             setPhoneNumber(details.phoneNumber);
         }
     }
@@ -78,7 +80,7 @@ function Employee() {
         setEnableError(false);
         setErrorMessages({});
 
-        window.location.reload();
+       // window.location.reload();
     }
 
     const navigate = useNavigate();
@@ -101,7 +103,7 @@ function Employee() {
         if (joinDate === "") {
             validationErrors.joinDate = "Join date is required";
         }
-        if (!/^\(\d{3}\) \d{3}-\d{4}$/.test(phoneNumber)) {
+        if (!/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/.test(phoneNumber) && phoneNumber !== null) {
             validationErrors.phoneNumber = "Invalid phone number";
         }
 
@@ -133,31 +135,31 @@ function Employee() {
             <div>
                 <div className="input-row">
                     <label className="label">Full name</label>
-                    <input type="text" id={fullName} placeholder="Enter fullname" onChange={(e) => handleNameChange(e.target.value)} />
+                    <input type="text" id={fullName} placeholder="Enter fullname" onChange={(e) => handleNameChange(e.target.value)} value={fullName} />
                     {errorMessages.fullName && <div className="error-message">{errorMessages.fullName}</div>}
                 </div>
 
                 <div className="input-row">
                     <label className="label">Email</label>
-                    <input type="text" id={email} placeholder="Enter email" onChange={(e) => handleEmailChange(e.target.value)} disabled={isEmployee === "true"} />
+                    <input type="text" id={email} placeholder="Enter email" onChange={(e) => handleEmailChange(e.target.value)} disabled={isEmployee === "true"} value={email} />
                     {errorMessages.email && <div className="error-message">{errorMessages.email}</div>}
                 </div>
 
                 <div className="input-row">
                     <label className="label">Salary</label>
-                    <input type="number" id={salary} placeholder="Enter salary" onChange={(e) => handleSalaryChange(e.target.value)} disabled={isEmployee === "true"} />
+                    <input type="number" id={salary} placeholder="Enter salary" onChange={(e) => handleSalaryChange(e.target.value)} disabled={isEmployee === "true"} value={salary} />
                     {errorMessages.salary && <div className="error-message">{errorMessages.salary}</div>}
                 </div>
 
                 <div className="input-row">
                     <label className="label">Join date</label>
-                    <input type="date" id={joinDate} onChange={(e) => handleDateChange(e.target.value)} disabled={isEmployee === "true"} />
+                    <input type="date" id={joinDate} onChange={(e) => handleDateChange(e.target.value)} disabled={isEmployee === "true"} value={joinDate} />
                     {errorMessages.joinDate && <div className="error-message">{errorMessages.joinDate}</div>}
                 </div>
 
                 <div className="input-row">
                     <label className="label">Phone number</label>
-                    <input type="tel" id={phoneNumber} placeholder="Enter phone number" onChange={(e) => handlePhoneNumberChange(e.target.value)} />
+                    <input type="tel" id={phoneNumber} placeholder="Enter phone number" onChange={(e) => handlePhoneNumberChange(e.target.value)} value={phoneNumber} />
                     {errorMessages.phoneNumber && <div className="error-message">{errorMessages.phoneNumber}</div>}
                 </div>
             </div>
