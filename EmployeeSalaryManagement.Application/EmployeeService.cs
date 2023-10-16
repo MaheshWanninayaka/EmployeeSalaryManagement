@@ -21,6 +21,11 @@ namespace EmployeeSalaryManagement.Application
             return await _employeeRepository.GetSalaryDetailsByEmpID(empId);
         }
 
+        public async Task<List<Salary>> GetSalaryDetailsMonthAndYearwise(string month, string year)
+        {
+            return await _employeeRepository.GetSalaryDetailsMonthAndYearwise(month,year);
+        }
+
         public async Task<Employee> SaveEmployee(Employee employee)
         {
             return await _employeeRepository.SaveEmployee(employee);

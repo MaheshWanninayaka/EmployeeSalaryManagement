@@ -23,3 +23,27 @@ table {
     text-align: center; /* Center the text horizontally */
     margin-top: 1rem; /* Optional: Add some top margin for spacing */
 }
+
+.month-year-picker-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.select-container {
+    margin: 10px;
+}
+
+select {
+    width: 100px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+label {
+    font-weight: bold;
+}
+
+p {
+    font-style: italic;
+}

@@ -1,12 +1,29 @@
 ﻿import axios from "axios";
 
-export default { GetSalaryDetailsByEmpID };
+export default { GetSalaryDetailsByEmpID, GetSalaryDetailsMonthAndYearwise };
 
 async function GetSalaryDetailsByEmpID(empId) {
     console.log("empId", empId)
     
 
     const url = `https://localhost:44458/api/employee/GetSalaryDetailsByEmpID?empId=${empId}`;
+
+    try {
+        const response = await axios.get(url);
+        return response.data;
+
+    } catch (error) {
+        // Handle any errors
+        throw error;
+    }
+}
+
+async function GetSalaryDetailsMonthAndYearwise(month,year) {
+    ///console.log("empId", empId)
+
+
+    const url = `https://localhost:44458/api/employee/GetSalaryDetailsMonthAndYearwise?month=${month}&year=${year}`;
+
 
     try {
         const response = await axios.get(url);

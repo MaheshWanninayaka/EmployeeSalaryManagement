@@ -121,7 +121,28 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
                 var result = await _employeeSalaryContext.Salaries.Where(x => x.EmployeeId == empId).ToListAsync();
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting employee salaries: " + ex.Message, ex);
+            }
+        }
+
+        public async Task<List<Salary>> GetSalaryDetailsMonthAndYearwise(string month, string year)
+        {
+            try
+            {
+                var result = new List<Salary>();
+                if (!string.IsNullOrEmpty(month) && month != "undefined")
+                {
+                    result = await _employeeSalaryContext.Salaries.Where(x => x.Month.Value.Month == Int32.Parse(month) && x.Month.Value.Year == Int32.Parse(year)).ToListAsync();
+                }
+                else
+                {
+                    result = await _employeeSalaryContext.Salaries.Where(x => x.Month.Value.Year == Int32.Parse(year)).ToListAsync();
+                }
+                return result;
+            }
+            catch (Exception ex)
             {
                 throw new Exception("Error getting employee salaries: " + ex.Message, ex);
             }
