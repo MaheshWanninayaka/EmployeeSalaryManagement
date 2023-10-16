@@ -4,7 +4,6 @@ import jwt_decode from "jwt-decode";
 export default { Login, getUserDetailsFromToken  };
 
 async function Login(loginModel) {
-    console.log("loginModel", loginModel)
     const data = {
         email: loginModel.email,
         password: loginModel.password
@@ -19,7 +18,6 @@ async function Login(loginModel) {
 
     } catch (error) {
         // Handle any errors
-        console.error('Error:', error);
         throw error;
     }
 }

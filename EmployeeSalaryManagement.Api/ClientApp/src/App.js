@@ -1,7 +1,8 @@
 import React, { Component, Suspense } from 'react';
 //import Login from './Login/Login';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 //import Employee from './Employee/Employee';
+import SalarySheet from './SalaryForm/SalarySheet';
 
 const Login = React.lazy(() => import('./Login/Login'));
 const Employee = React.lazy(() => import('./Employee/Employee'));
@@ -13,11 +14,11 @@ export default class App extends Component {
 
     render() {
         return (
-
             <Routes>
                 <Route path="/" element={<Suspense fallback={<div>Loading...</div>}><Login /></Suspense>} />
                 <Route path="/employee" element={<Suspense fallback={<div>Loading employee...</div>}><Employee /></Suspense>} />
                 <Route path="/empLogin" element={<Suspense fallback={<div>Loading employee login...</div>}><EmpLogin /></Suspense>} />
+                <Route path="/salarySheet" element={<SalarySheet />} />
             </Routes>
         );
     }

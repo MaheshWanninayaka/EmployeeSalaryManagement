@@ -12,11 +12,10 @@ function Employee() {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [enableError, setEnableError] = useState(false);
     const [errorMessages, setErrorMessages] = useState({});
+    const [userID, setUserID] = useState(0);
 
     var isEmployee = localStorage.getItem("isEmployee");
-    console.log("isEmployee", isEmployee);
 
-    console.log("fullName", fullName);
 
     useEffect(() => {
         var userData = service.getUserDetailsFromToken();
@@ -24,6 +23,7 @@ function Employee() {
         if (userData.employeeId > 0) {
 
             GetEmployeeDetailsByEmpId(parseInt(userData.employeeId));
+            setUserID(parseInt(userData.employeeId));
         }
     }, []);
 
@@ -80,7 +80,7 @@ function Employee() {
         setEnableError(false);
         setErrorMessages({});
 
-       // window.location.reload();
+        // window.location.reload();
     }
 
     const navigate = useNavigate();
@@ -113,9 +113,7 @@ function Employee() {
         }
         else {
             var data = { fullName: fullName, email: email, salary: salary, joinDate: joinDate, phoneNumber: phoneNumber };
-            console.log("data", data)
             var result = await service.SaveEmployee(data);
-            console.log("result", result)
             if (result.employeeId > 0) {
                 navigate("/");
             }
@@ -126,11 +124,16 @@ function Employee() {
         }
     }
 
+    const checkSalaryDetails = () => {
 
+        const data = { userID: userID };
+        navigate('/salarySheet', { state: { data } })
+    }
 
     return (
         <Fragment>
             <h1 className='container'>Add employee details</h1>
+            <button onClick={ checkSalaryDetails}>Salary details</button>
 
             <div>
                 <div className="input-row">

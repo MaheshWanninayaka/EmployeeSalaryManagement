@@ -113,5 +113,18 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
                 throw new Exception("Error getting employee: " + ex.Message, ex);
             }
         }
+
+        public async Task<List<Salary>> GetSalaryDetailsByEmpID(int empId)
+        {
+            try
+            {
+                var result = await _employeeSalaryContext.Salaries.Where(x => x.EmployeeId == empId).ToListAsync();
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Error getting employee salaries: " + ex.Message, ex);
+            }
+        }
     }
 }

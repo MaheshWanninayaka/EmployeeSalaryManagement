@@ -43,7 +43,6 @@ function EmpLogin() {
         if (accessToken !== null && accessToken !== "Error") {
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("isEmployee", true);
-            console.log("localStorage", localStorage)
 
             var userDetails = service.getUserDetailsFromToken();
 
