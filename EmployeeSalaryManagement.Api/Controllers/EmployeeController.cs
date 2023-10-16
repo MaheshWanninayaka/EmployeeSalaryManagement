@@ -25,7 +25,12 @@ namespace EmployeeSalaryManagement.Api.Controllers
             var result = await _employeeService.SaveEmployee(employee);
             return result;
         }
-
-
+        [HttpGet]
+        [Route("GetEmployeeDetailsByEmpId")]
+        public async Task<Employee> GetEmployeeDetailsByEmpId(int empId)
+        {
+            var result = await _employeeService.GetEmployeeDetailsByEmpId(empId);
+            return result;
+        }
     }
 }

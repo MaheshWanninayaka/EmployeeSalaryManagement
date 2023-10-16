@@ -4,6 +4,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Text;
 using EmployeeSalaryManagement.Api.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeSalaryManagement.Infastructure.Repository
 {
@@ -100,6 +101,17 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
 
         }
 
-
+        public async Task<Employee?> GetEmployeeDetailsByEmpId(int empId)
+        {
+            try
+            {
+                var result = await _employeeSalaryContext.Employees.Where(x => x.EmployeeId == empId).FirstOrDefaultAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting employee: " + ex.Message, ex);
+            }
+        }
     }
 }

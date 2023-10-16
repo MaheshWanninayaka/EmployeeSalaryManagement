@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState } from 'react';
+﻿import React, { Fragment, useState, useEffect } from 'react';
 import service from './services';
 import './EmpLogin.css';
 import { useNavigate } from 'react-router-dom';
@@ -44,7 +44,15 @@ function EmpLogin() {
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("isEmployee", true);
             console.log("localStorage", localStorage)
-            navigate("/employee");
+
+            var userDetails = service.getUserDetailsFromToken();
+
+            if (userDetails.employeeId > 0) {
+                navigate("/employee");
+            }
+            else {
+                setEnableError(true);
+            }
         }
         else {
             setEnableError(true);

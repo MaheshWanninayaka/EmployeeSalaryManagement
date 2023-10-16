@@ -17,8 +17,13 @@ function Employee() {
     console.log("isEmployee", isEmployee);
 
     useEffect(() => {
-       // var data = await service.SaveEmployee(data);
-    }, [isEmployee]);
+        var userData = service.getUserDetailsFromToken();
+
+        if (userData.employeeId > 0) {
+
+            GetEmployeeDetailsByEmpId(parseInt(userData.employeeId));
+        }
+    }, []);
 
     const handleNameChange = (value) => {
         setFullName(value);
@@ -50,6 +55,19 @@ function Employee() {
 
     const clearError = (fieldName) => {
         setErrorMessages({ ...errorMessages, [fieldName]: "" });
+    }
+
+    async function GetEmployeeDetailsByEmpId(empID) {
+        var details = await service.GetEmployeeDetailsByEmpId(empID);
+        console.log("details", details)
+
+        if (details !== null) {
+            setFullName(details.fullName);
+            setEmail(details.email);
+            setSalary(details.salary);
+            setJoinDate(details.joinDate);
+            setPhoneNumber(details.phoneNumber);
+        }
     }
 
     async function handleClear(e) {

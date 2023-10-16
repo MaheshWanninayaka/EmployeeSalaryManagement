@@ -10,6 +10,12 @@ namespace EmployeeSalaryManagement.Application
         {
             _employeeRepository = employeeRepository;
         }
+
+        public async Task<Employee?> GetEmployeeDetailsByEmpId(int empId)
+        {
+            return await _employeeRepository.GetEmployeeDetailsByEmpId(empId);
+        }
+
         public async Task<Employee> SaveEmployee(Employee employee)
         {
             return await _employeeRepository.SaveEmployee(employee);

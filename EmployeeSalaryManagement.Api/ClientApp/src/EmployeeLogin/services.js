@@ -1,6 +1,7 @@
 ﻿import axios from "axios";
+import jwt_decode from "jwt-decode";
 
-export default { Login };
+export default { Login, getUserDetailsFromToken  };
 
 async function Login(loginModel) {
     console.log("loginModel", loginModel)
@@ -21,4 +22,10 @@ async function Login(loginModel) {
         console.error('Error:', error);
         throw error;
     }
+}
+
+function getUserDetailsFromToken() {
+    var accessToken = localStorage.getItem("accessToken");
+    var decoded = jwt_decode(accessToken);
+    return decoded;
 }
