@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using EmployeeSalaryManagement.Domain.Models;
+using static System.Net.WebRequestMethods;
 
 namespace EmployeeSalaryManagement.Infastructure.Repository
 {
@@ -24,7 +26,7 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
                 var user = await _employeeSalaryContext.UserDetails.Where(x => x.Email == email && x.Password == password).FirstOrDefaultAsync();
                 if (user != null)
                 {
-                    var token = GenerateJwtToken(email);
+                    var token = GenerateJwtToken(user);
                     return token;
                 }
                 return "Error";
@@ -36,17 +38,25 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
             }
         }
 
-        private string GenerateJwtToken(string username)
+        private string GenerateJwtToken(UserDetail user)
         {
+            var claims = new List<Claim>
+             {
+                 
+                 new Claim(JwtRegisteredClaimNames.Email,user.Email.ToString()),
+                 new Claim("employeeId",user.EmployeeId.ToString()),
+             };
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var secretKey = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)); // Same secret key as in startup.cs
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username) }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddHours(1), // Token expiration time
-                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256),
+                Issuer= "http://localhost:44458"
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);

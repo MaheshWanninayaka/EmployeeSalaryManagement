@@ -1,9 +1,9 @@
 ﻿import React, { Fragment, useState } from 'react';
 import service from './services';
-import './Login.css';
+import './EmpLogin.css';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function EmpLogin() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -42,7 +42,7 @@ function Login() {
 
         if (accessToken !== null && accessToken !== "Error") {
             localStorage.setItem("accessToken", accessToken);
-            localStorage.setItem("isEmployee", false);
+            localStorage.setItem("isEmployee", true);
             console.log("localStorage", localStorage)
             navigate("/employee");
         }
@@ -65,7 +65,7 @@ function Login() {
 
     return (
         <Fragment>
-            <h1 className='container'>User Login</h1>
+            <h1 className='container'>Employee Login</h1>
 
             <div className="label-container">
                 <label className="lbl" >Username/Email  </label>
@@ -89,4 +89,4 @@ function Login() {
 
     )
 }
-export default Login;
+export default EmpLogin;

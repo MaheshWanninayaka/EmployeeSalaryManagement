@@ -53,8 +53,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseCors(builder =>
-                builder.WithOrigins("http://localhost:44458").AllowAnyHeader().AllowAnyMethod());
+//app.UseCors(builder =>
+//                builder.WithOrigins("http://localhost:44458").AllowAnyHeader().AllowAnyMethod());
 
 app.UseAuthentication();
 app.UseAuthorization();

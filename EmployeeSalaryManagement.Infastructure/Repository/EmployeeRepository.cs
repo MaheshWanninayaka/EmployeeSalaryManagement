@@ -25,7 +25,8 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
                     FullName = employee.FullName,
                     Email = employee.Email,
                     Salary = employee.Salary,
-                    JoinDate = employee.JoinDate
+                    JoinDate = employee.JoinDate,
+                    PhoneNumber = employee.PhoneNumber,
                 };
 
                 await _employeeSalaryContext.Employees.AddAsync(newEmployee);
