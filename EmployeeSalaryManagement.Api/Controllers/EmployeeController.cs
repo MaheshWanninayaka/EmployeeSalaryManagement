@@ -26,6 +26,7 @@ namespace EmployeeSalaryManagement.Api.Controllers
             var result = await _employeeService.SaveEmployee(employee);
             return result;
         }
+
         [HttpGet]
         [Route("GetEmployeeDetailsByEmpId")]
         public async Task<Employee?> GetEmployeeDetailsByEmpId(int empId)
@@ -56,6 +57,14 @@ namespace EmployeeSalaryManagement.Api.Controllers
         public async Task<List<Employee>> GetAllEmployeeDetails()
         {
             var result = await _employeeService.GetAllEmployeeDetails();
+            return result;
+        }
+
+        [HttpPost]
+        [Route("UpdateEmployee")]
+        public async Task<Employee> UpdateEmployee(Employee employee)
+        {
+            var result = await _employeeService.UpdateEmployee(employee);
             return result;
         }
     }
