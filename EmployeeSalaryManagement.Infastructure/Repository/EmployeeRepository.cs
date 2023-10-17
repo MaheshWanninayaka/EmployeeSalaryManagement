@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using EmployeeSalaryManagement.Api.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 
 namespace EmployeeSalaryManagement.Infastructure.Repository
 {
@@ -19,46 +20,50 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
 
         public async Task<Employee> SaveEmployee(Employee employee)
         {
-            try
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var newEmployee = new Employee
+                try
                 {
-                    FullName = employee.FullName,
-                    Email = employee.Email,
-                    Salary = employee.Salary,
-                    JoinDate = employee.JoinDate,
-                    PhoneNumber = employee.PhoneNumber,
-                };
-
-                await _employeeSalaryContext.Employees.AddAsync(newEmployee);
-                var result = await _employeeSalaryContext.SaveChangesAsync();
-
-                if (result > 0)
-                {
-                    var temporaryPassword = TempPasswordCreator();
-
-                    var userModel = new UserDetail
+                    var newEmployee = new Employee
                     {
-                        EmployeeId = newEmployee.EmployeeId,
-                        Email = newEmployee.Email,
-                        Password = temporaryPassword
+                        FullName = employee.FullName,
+                        Email = employee.Email,
+                        Salary = employee.Salary,
+                        JoinDate = employee.JoinDate,
+                        PhoneNumber = employee.PhoneNumber,
+                        IsActive=employee.IsActive,
                     };
 
-                    await _employeeSalaryContext.UserDetails.AddAsync(userModel);
-                    var userResult = await _employeeSalaryContext.SaveChangesAsync();
+                    await _employeeSalaryContext.Employees.AddAsync(newEmployee);
+                    var result = await _employeeSalaryContext.SaveChangesAsync();
 
-                    if (userResult > 0)
+                    if (result > 0)
                     {
-                        MailSender(temporaryPassword, userModel.Email);
+                        var temporaryPassword = TempPasswordCreator();
+
+                        var userModel = new UserDetail
+                        {
+                            EmployeeId = newEmployee.EmployeeId,
+                            Email = newEmployee.Email,
+                            Password = temporaryPassword
+                        };
+
+                        await _employeeSalaryContext.UserDetails.AddAsync(userModel);
+                        var userResult = await _employeeSalaryContext.SaveChangesAsync();
+
+                        if (userResult > 0)
+                        {
+                            MailSender(temporaryPassword, userModel.Email);
+                        }
                     }
+                    scope.Complete();
+                    return newEmployee;
+
                 }
-
-                return newEmployee;
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error saving employee: " + ex.Message, ex);
+                catch (Exception ex)
+                {
+                    throw new Exception("Error saving employee: " + ex.Message, ex);
+                }
             }
         }
 
@@ -127,24 +132,37 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
             }
         }
 
-        public async Task<List<Salary>> GetSalaryDetailsMonthAndYearwise(string month, string year)
+        public async Task<List<Salary>> GetSalaryDetailsMonthAndYearwise(string month, string year, int userId)
         {
             try
             {
                 var result = new List<Salary>();
                 if (!string.IsNullOrEmpty(month) && month != "undefined")
                 {
-                    result = await _employeeSalaryContext.Salaries.Where(x => x.Month.Value.Month == Int32.Parse(month) && x.Month.Value.Year == Int32.Parse(year)).ToListAsync();
+                    result = await _employeeSalaryContext.Salaries.Where(x => x.EmployeeId == userId && x.Month.Value.Month == Int32.Parse(month) && x.Month.Value.Year == Int32.Parse(year)).ToListAsync();
                 }
                 else
                 {
-                    result = await _employeeSalaryContext.Salaries.Where(x => x.Month.Value.Year == Int32.Parse(year)).ToListAsync();
+                    result = await _employeeSalaryContext.Salaries.Where(x => x.EmployeeId == userId && x.Month.Value.Year == Int32.Parse(year)).ToListAsync();
                 }
                 return result;
             }
             catch (Exception ex)
             {
                 throw new Exception("Error getting employee salaries: " + ex.Message, ex);
+            }
+        }
+
+        public async Task<List<Employee>> GetAllEmployeeDetails()
+        {
+            try
+            {
+                var result = await _employeeSalaryContext.Employees.ToListAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting all employees: " + ex.Message, ex);
             }
         }
     }

@@ -18,4 +18,5 @@ public partial class Employee
     public DateTime? JoinDate { get; set; }
 
     public string? PhoneNumber { get; set; }
+    public bool? IsActive { get; set; }
 }

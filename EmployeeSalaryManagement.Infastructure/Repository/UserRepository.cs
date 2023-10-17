@@ -26,8 +26,15 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
                 var user = await _employeeSalaryContext.UserDetails.Where(x => x.Email == email && x.Password == password).FirstOrDefaultAsync();
                 if (user != null)
                 {
-                    var token = GenerateJwtToken(user);
-                    return token;
+                    if ((bool)_employeeSalaryContext.Employees.Where(x => x.EmployeeId == user.EmployeeId).FirstOrDefault().IsActive)
+                    {
+                        var token = GenerateJwtToken(user);
+                        return token;
+                    }
+                    else
+                    {
+                        return "User is deactivated";
+                    }
                 }
                 return "Error";
 
@@ -42,7 +49,7 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
         {
             var claims = new List<Claim>
              {
-                 
+
                  new Claim(JwtRegisteredClaimNames.Email,user.Email.ToString()),
                  new Claim("employeeId",user.EmployeeId.ToString()),
              };
@@ -56,7 +63,7 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddHours(1), // Token expiration time
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256),
-                Issuer= "http://localhost:44458"
+                Issuer = "http://localhost:44458"
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);

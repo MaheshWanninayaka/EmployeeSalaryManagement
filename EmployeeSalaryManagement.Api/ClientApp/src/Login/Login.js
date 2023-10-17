@@ -8,6 +8,7 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [enableError, setEnableError] = useState(false);
+    const [isActiveError, setIsActiveError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const navigate = useNavigate();
@@ -24,6 +25,11 @@ function Login() {
 
     async function handleLogin() {
 
+        setEmailError(false);
+        setPasswordError(false);
+        setEnableError(false);
+        setIsActiveError(false);
+
         if (!email || !password) {
             // Check if email or password is empty
             setEmailError(!email);
@@ -39,12 +45,15 @@ function Login() {
 
         var data = { email: email, password: password };
         var accessToken = await service.Login(data);
-
-        if (accessToken !== null && accessToken !== "Error") {
+        console.log("accessToken", accessToken)
+        if (accessToken !== null && accessToken !== "Error" && accessToken !== "User is deactivated") {
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("isEmployee", false);
             console.log("localStorage", localStorage)
             navigate("/employee");
+        }
+        else if (accessToken === "User is deactivated") {
+            setIsActiveError(true)
         }
         else {
             setEnableError(true);
@@ -57,6 +66,7 @@ function Login() {
         setEmailError(false);
         setPasswordError(false);
         setEnableError(false);
+        setIsActiveError(false);
 
     }
 
@@ -84,6 +94,7 @@ function Login() {
             </div>
 
             {enableError ? <label className="red-label">Incorrect Username or Password... Please try again...</label> : null}
+            {isActiveError ? <label className="red-label">User is deactivated...</label> : null}
         </Fragment>
 
     )

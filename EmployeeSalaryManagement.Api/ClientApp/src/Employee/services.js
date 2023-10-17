@@ -6,7 +6,7 @@ export default { SaveEmployee, getUserDetailsFromToken, GetEmployeeDetailsByEmpI
 async function SaveEmployee(loginModel) {
     
     const url = `https://localhost:44458/api/employee/SaveEmployee`;
-
+    console.log("loginModel", loginModel)
     try {
         const response = await axios.post(url, loginModel);
         return response.data;

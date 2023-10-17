@@ -44,9 +44,17 @@ namespace EmployeeSalaryManagement.Api.Controllers
 
         [HttpGet]
         [Route("GetSalaryDetailsMonthAndYearwise")]
-        public async Task<List<Salary>> GetSalaryDetailsMonthAndYearwise(string month,string year)
+        public async Task<List<Salary>> GetSalaryDetailsMonthAndYearwise(string month,string year,int userId)
         {
-            var result = await _employeeService.GetSalaryDetailsMonthAndYearwise(month,year);
+            var result = await _employeeService.GetSalaryDetailsMonthAndYearwise(month,year,userId);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetAllEmployeeDetails")]
+        public async Task<List<Employee>> GetAllEmployeeDetails()
+        {
+            var result = await _employeeService.GetAllEmployeeDetails();
             return result;
         }
     }

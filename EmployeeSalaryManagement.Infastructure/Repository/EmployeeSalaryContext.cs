@@ -40,6 +40,7 @@ public partial class EmployeeSalaryContext : DbContext
             entity.Property(e => e.JoinDate).HasColumnType("date");
             entity.Property(e => e.Salary).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.PhoneNumber).HasMaxLength(50);
+            entity.Property(e => e.IsActive).HasColumnType("boolean");
         });
 
         modelBuilder.Entity<Salary>(entity =>

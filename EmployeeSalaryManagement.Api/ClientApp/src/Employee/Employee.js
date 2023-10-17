@@ -13,6 +13,7 @@ function Employee() {
     const [enableError, setEnableError] = useState(false);
     const [errorMessages, setErrorMessages] = useState({});
     const [userID, setUserID] = useState(0);
+    const [isActive, setIsActive] = useState(true);
 
     var isEmployee = localStorage.getItem("isEmployee");
 
@@ -112,7 +113,7 @@ function Employee() {
             setEnableError(true);
         }
         else {
-            var data = { fullName: fullName, email: email, salary: salary, joinDate: joinDate, phoneNumber: phoneNumber };
+            var data = { fullName: fullName, email: email, salary: salary, joinDate: joinDate, phoneNumber: phoneNumber, isActive: isActive, };
             var result = await service.SaveEmployee(data);
             if (result.employeeId > 0) {
                 navigate("/");
@@ -164,6 +165,15 @@ function Employee() {
                     <label className="label">Phone number</label>
                     <input type="tel" id={phoneNumber} placeholder="Enter phone number" onChange={(e) => handlePhoneNumberChange(e.target.value)} value={phoneNumber} />
                     {errorMessages.phoneNumber && <div className="error-message">{errorMessages.phoneNumber}</div>}
+                </div>
+
+                <div className="input-row">
+                    <label className="label">Is Active</label>
+                    <input
+                        type="checkbox"
+                        checked={isActive}
+                        onChange={() => setIsActive(!isActive)}
+                    />
                 </div>
             </div>
 

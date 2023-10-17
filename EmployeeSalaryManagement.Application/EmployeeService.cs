@@ -11,6 +11,11 @@ namespace EmployeeSalaryManagement.Application
             _employeeRepository = employeeRepository;
         }
 
+        public async Task<List<Employee>> GetAllEmployeeDetails()
+        {
+            return await _employeeRepository.GetAllEmployeeDetails();
+        }
+
         public async Task<Employee?> GetEmployeeDetailsByEmpId(int empId)
         {
             return await _employeeRepository.GetEmployeeDetailsByEmpId(empId);
@@ -21,9 +26,9 @@ namespace EmployeeSalaryManagement.Application
             return await _employeeRepository.GetSalaryDetailsByEmpID(empId);
         }
 
-        public async Task<List<Salary>> GetSalaryDetailsMonthAndYearwise(string month, string year)
+        public async Task<List<Salary>> GetSalaryDetailsMonthAndYearwise(string month, string year, int userId)
         {
-            return await _employeeRepository.GetSalaryDetailsMonthAndYearwise(month,year);
+            return await _employeeRepository.GetSalaryDetailsMonthAndYearwise(month,year,userId);
         }
 
         public async Task<Employee> SaveEmployee(Employee employee)
