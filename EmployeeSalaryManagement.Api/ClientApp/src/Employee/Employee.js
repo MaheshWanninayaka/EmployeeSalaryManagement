@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './Employee.css';
 import service from './services';
 
-
 function Employee() {
 
     const [fullName, setFullName] = useState("");
@@ -64,7 +63,6 @@ function Employee() {
 
     async function GetEmployeeDetailsByEmpId(empID) {
         var details = await service.GetEmployeeDetailsByEmpId(empID);
-        console.log("details", details.joinDate.split("T")[0])
 
         if (details !== null) {
             setFullName(details.fullName.toString());
@@ -90,7 +88,6 @@ function Employee() {
 
     async function handleSave() {
 
-        // Validate input fields
         const validationErrors = {};
         if (fullName === "") {
             validationErrors.fullName = "Full name is required";
@@ -119,7 +116,6 @@ function Employee() {
                 var data = { fullName: fullName, email: email, salary: salary, joinDate: joinDate, phoneNumber: phoneNumber, isActive: isActive, };
                 var result = await service.SaveEmployee(data);
                 if (result.employeeId > 0) {
-                   // navigate("/");
                     setSuccessMessage("Employee saved successfully!");
 
                     setTimeout(() => {
@@ -135,7 +131,6 @@ function Employee() {
                 var data = { fullName: fullName, email: email, salary: salary, joinDate: joinDate, phoneNumber: phoneNumber, isActive: isActive, employeeId: userID };
                 var result = await service.UpdateEmployee(data);
                 if (result.employeeId > 0) {
-                    ////navigate("/");
                     setSuccessMessage("Employee updated successfully!");
 
                     setTimeout(() => {

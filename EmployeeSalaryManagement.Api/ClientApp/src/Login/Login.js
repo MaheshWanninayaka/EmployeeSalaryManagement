@@ -49,7 +49,6 @@ function Login() {
         if (accessToken !== null && accessToken !== "Error" && accessToken !== "User is deactivated") {
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("isEmployee", false);
-            console.log("localStorage", localStorage)
             navigate("/employee");
         }
         else if (accessToken === "User is deactivated") {
@@ -70,11 +69,9 @@ function Login() {
 
     }
 
-
-
     return (
         <Fragment>
-            <h1 className='container'>User Login</h1>
+            <h1 className='container'>Admin User Login</h1>
 
             <div className="label-container">
                 <label className="lbl" >Username/Email  </label>

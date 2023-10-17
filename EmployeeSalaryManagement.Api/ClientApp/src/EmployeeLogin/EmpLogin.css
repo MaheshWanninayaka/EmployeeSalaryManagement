@@ -5,9 +5,7 @@
 label {
     display: block;
     margin: 10px 0;
-    font-weight: bold;
-   
-    
+    font-weight: bold; 
 }
 
 input {
@@ -16,9 +14,7 @@ input {
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box;
-   
-    
+    box-sizing: border-box;    
 }
 
 button {
@@ -40,12 +36,11 @@ button {
 }
 
 .button-container {
-    display: flex; /* Make the buttons display in a row */
-    /* Space the buttons apart */
+    display: flex; 
 }
 
     .button-container button {
-        padding: 10px 20px; /* Add padding for better button appearance */
+        padding: 10px 20px; 
     }
 
 .btn1 {
@@ -74,10 +69,10 @@ button {
 }
 
 .label-container {
-    display: flex; /* Make the buttons display in a row */
-    /* Space the buttons apart */
+    display: flex; 
+   
 }
 
     .label-container input {
-        padding: 10px 20px; /* Add padding for better button appearance */
+        padding: 10px 20px; 
     }

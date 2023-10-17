@@ -10,6 +10,8 @@ using static System.Net.WebRequestMethods;
 
 namespace EmployeeSalaryManagement.Infastructure.Repository
 {
+    //used seperate repositories for seperate of concerns(repository pattern used)
+    //single responsibility
     public class UserRepository : IUserRepository
     {
         private readonly EmployeeSalaryContext _employeeSalaryContext;
@@ -57,7 +59,7 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
             var tokenHandler = new JwtSecurityTokenHandler();
             var secretKey = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)); // Same secret key as in startup.cs
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)); 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),

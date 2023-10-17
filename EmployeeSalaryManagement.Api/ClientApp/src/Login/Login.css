@@ -40,12 +40,11 @@ button {
 }
 
 .button-container {
-    display: flex; /* Make the buttons display in a row */
-    /* Space the buttons apart */
+    display: flex; 
 }
 
     .button-container button {
-        padding: 10px 20px; /* Add padding for better button appearance */
+        padding: 10px 20px; 
     }
 
 .btn1 {
@@ -74,10 +73,9 @@ button {
 }
 
 .label-container {
-    display: flex; /* Make the buttons display in a row */
-    /* Space the buttons apart */
+    display: flex; 
 }
 
     .label-container input {
-        padding: 10px 20px; /* Add padding for better button appearance */
+        padding: 10px 20px; 
     }

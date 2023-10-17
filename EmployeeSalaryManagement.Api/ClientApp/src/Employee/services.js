@@ -6,14 +6,12 @@ export default { SaveEmployee, getUserDetailsFromToken, GetEmployeeDetailsByEmpI
 async function SaveEmployee(saveModel) {
     
     const url = `https://localhost:44458/api/employee/SaveEmployee`;
-    console.log("saveModel", saveModel)
     try {
         const response = await axios.post(url, saveModel);
         return response.data;
 
     } catch (error) {
         // Handle any errors
-        console.error('Error:', error);
         throw error;
     }
 }
@@ -35,7 +33,6 @@ async function GetEmployeeDetailsByEmpId(empId) {
 
     } catch (error) {
         // Handle any errors
-        console.error('Error:', error);
         throw error;
     }
 }
@@ -48,11 +45,9 @@ async function UpdateEmployee(updateModel) {
         const response = await axios.post(url, updateModel);
         return response.data;
 
-        console.log("response", response.data)
 
     } catch (error) {
         // Handle any errors
-        console.error('Error:', error);
         throw error;
     }
 }

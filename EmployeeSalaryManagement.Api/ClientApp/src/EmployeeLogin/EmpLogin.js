@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect } from 'react';
+﻿import React, { Fragment, useState } from 'react';
 import service from './services';
 import './EmpLogin.css';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +25,6 @@ function EmpLogin() {
     async function handleLogin() {
 
         if (!email || !password) {
-            // Check if email or password is empty
             setEmailError(!email);
             setPasswordError(!password);
             return;
@@ -65,7 +64,6 @@ function EmpLogin() {
         setPasswordError(false);
         setEnableError(false);
 
-        window.location.reload();
     }
 
 

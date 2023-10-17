@@ -13,6 +13,7 @@ namespace EmployeeSalaryManagement.Api.Controllers
 
         private readonly IEmployeeService _employeeService;
 
+        //used constructor dependency injection here to loosly coupled. also for dependency inversion principle
         public EmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;

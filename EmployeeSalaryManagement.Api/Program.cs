@@ -15,7 +15,7 @@ builder.Services.AddDbContext<EmployeeSalaryContext>(options =>
 options.UseSqlServer(
             builder.Configuration.GetConnectionString("SqlConnectionString")));
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>(); //added interfaces and classes using service life times
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();

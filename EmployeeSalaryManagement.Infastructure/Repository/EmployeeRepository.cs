@@ -20,6 +20,7 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
 
         public async Task<Employee> SaveEmployee(Employee employee)
         {
+            //added transaction scope for data correctyle add or not otherwise rollback
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 try

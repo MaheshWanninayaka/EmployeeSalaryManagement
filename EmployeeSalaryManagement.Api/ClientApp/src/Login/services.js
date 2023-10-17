@@ -3,7 +3,6 @@
 export default { Login };
 
 async function Login(loginModel) {
-    console.log("loginModel", loginModel)
     const data = {
         email: loginModel.email,
         password: loginModel.password
