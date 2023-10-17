@@ -31,7 +31,7 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
                         Salary = employee.Salary,
                         JoinDate = employee.JoinDate,
                         PhoneNumber = employee.PhoneNumber,
-                        IsActive=employee.IsActive,
+                        IsActive = employee.IsActive,
                     };
 
                     await _employeeSalaryContext.Employees.AddAsync(newEmployee);
@@ -163,6 +163,42 @@ namespace EmployeeSalaryManagement.Infastructure.Repository
             catch (Exception ex)
             {
                 throw new Exception("Error getting all employees: " + ex.Message, ex);
+            }
+        }
+
+        public async Task<Employee> UpdateEmployee(Employee employee)
+        {
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                try
+                {
+                    var existingEmployee = await _employeeSalaryContext.Employees.FirstOrDefaultAsync(e => e.EmployeeId == employee.EmployeeId);
+
+                    if (existingEmployee != null)
+                    {
+                        existingEmployee.FullName = employee.FullName;
+                        existingEmployee.Email = employee.Email;
+                        existingEmployee.Salary = employee.Salary;
+                        existingEmployee.JoinDate = employee.JoinDate;
+                        existingEmployee.PhoneNumber = employee.PhoneNumber;
+                        existingEmployee.IsActive = employee.IsActive;
+
+                        _employeeSalaryContext.Entry(existingEmployee).State = EntityState.Modified;
+
+                        var result = await _employeeSalaryContext.SaveChangesAsync();
+
+
+                        scope.Complete();
+                        return existingEmployee;
+                    }
+
+                    throw new Exception("Employee not found or error updating employee.");
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error saving employee: " + ex.Message, ex);
+                }
             }
         }
     }

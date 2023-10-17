@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Employee.css';
 import service from './services';
 
+
 function Employee() {
 
     const [fullName, setFullName] = useState("");
@@ -14,6 +15,7 @@ function Employee() {
     const [errorMessages, setErrorMessages] = useState({});
     const [userID, setUserID] = useState(0);
     const [isActive, setIsActive] = useState(true);
+    const [successMessage, setSuccessMessage] = useState(""); 
 
     var isEmployee = localStorage.getItem("isEmployee");
 
@@ -80,8 +82,8 @@ function Employee() {
         setJoinDate("");
         setEnableError(false);
         setErrorMessages({});
+        setSuccessMessage("")
 
-        // window.location.reload();
     }
 
     const navigate = useNavigate();
@@ -113,14 +115,37 @@ function Employee() {
             setEnableError(true);
         }
         else {
-            var data = { fullName: fullName, email: email, salary: salary, joinDate: joinDate, phoneNumber: phoneNumber, isActive: isActive, };
-            var result = await service.SaveEmployee(data);
-            if (result.employeeId > 0) {
-                navigate("/");
+            if (isEmployee !== "true") {
+                var data = { fullName: fullName, email: email, salary: salary, joinDate: joinDate, phoneNumber: phoneNumber, isActive: isActive, };
+                var result = await service.SaveEmployee(data);
+                if (result.employeeId > 0) {
+                   // navigate("/");
+                    setSuccessMessage("Employee saved successfully!");
+
+                    setTimeout(() => {
+                        setSuccessMessage("");
+                    }, 2000);
+                }
+                else {
+                    setEnableError(true);
+                    setErrorMessages({ general: "Error saving employee... Please try again..." });
+                }
             }
             else {
-                setEnableError(true);
-                setErrorMessages({ general: "Error saving employee... Please try again..." });
+                var data = { fullName: fullName, email: email, salary: salary, joinDate: joinDate, phoneNumber: phoneNumber, isActive: isActive, employeeId: userID };
+                var result = await service.UpdateEmployee(data);
+                if (result.employeeId > 0) {
+                    ////navigate("/");
+                    setSuccessMessage("Employee updated successfully!");
+
+                    setTimeout(() => {
+                        setSuccessMessage("");
+                    }, 2000);
+                }
+                else {
+                    setEnableError(true);
+                    setErrorMessages({ general: "Error saving employee... Please try again..." });
+                }
             }
         }
     }
@@ -134,8 +159,9 @@ function Employee() {
     return (
         <Fragment>
             <h1 className='container'>Add employee details</h1>
-            <button onClick={ checkSalaryDetails}>Salary details</button>
+            <button onClick={checkSalaryDetails}>Salary details</button>
 
+            {successMessage && <div div className={`success-message center-text`}>{successMessage}</div>}
             <div>
                 <div className="input-row">
                     <label className="label">Full name</label>
@@ -173,8 +199,10 @@ function Employee() {
                         type="checkbox"
                         checked={isActive}
                         onChange={() => setIsActive(!isActive)}
+                        disabled={isEmployee === "true"}
                     />
                 </div>
+
             </div>
 
             <br /><br />
@@ -182,7 +210,7 @@ function Employee() {
                 <div>
                     <button className="btn1" onClick={(e) => handleClear(e)}>Clear</button>
 
-                    <button onClick={(e) => handleSave()}>Save</button>
+                    <button onClick={(e) => handleSave()}>{isEmployee === "true" ? "Update" : "Save"}</button>
                 </div>
             </div>
 

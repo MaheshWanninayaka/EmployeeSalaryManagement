@@ -1,14 +1,14 @@
 ﻿import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-export default { SaveEmployee, getUserDetailsFromToken, GetEmployeeDetailsByEmpId };
+export default { SaveEmployee, getUserDetailsFromToken, GetEmployeeDetailsByEmpId, UpdateEmployee };
 
-async function SaveEmployee(loginModel) {
+async function SaveEmployee(saveModel) {
     
     const url = `https://localhost:44458/api/employee/SaveEmployee`;
-    console.log("loginModel", loginModel)
+    console.log("saveModel", saveModel)
     try {
-        const response = await axios.post(url, loginModel);
+        const response = await axios.post(url, saveModel);
         return response.data;
 
     } catch (error) {
@@ -32,6 +32,23 @@ async function GetEmployeeDetailsByEmpId(empId) {
     try {
         const response = await axios.get(url);
         return response.data;
+
+    } catch (error) {
+        // Handle any errors
+        console.error('Error:', error);
+        throw error;
+    }
+}
+
+async function UpdateEmployee(updateModel) {
+
+    const url = `https://localhost:44458/api/employee/UpdateEmployee`;
+    console.log("updateModel", updateModel)
+    try {
+        const response = await axios.post(url, updateModel);
+        return response.data;
+
+        console.log("response", response.data)
 
     } catch (error) {
         // Handle any errors

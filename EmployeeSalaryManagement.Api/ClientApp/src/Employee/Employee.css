@@ -54,3 +54,15 @@ button {
     text-align: center;
     color: red;
 }
+
+.success-message {
+    color: green; 
+    max-width: 100%; 
+    display: inline-block; 
+    text-align: center; 
+    font-size: 18px; 
+}
+
+.center-text {
+    text-align: center; 
+}

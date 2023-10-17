@@ -36,5 +36,9 @@ namespace EmployeeSalaryManagement.Application
             return await _employeeRepository.SaveEmployee(employee);
         }
 
+        public async Task<Employee> UpdateEmployee(Employee employee)
+        {
+            return await _employeeRepository.UpdateEmployee(employee);
+        }
     }
 }

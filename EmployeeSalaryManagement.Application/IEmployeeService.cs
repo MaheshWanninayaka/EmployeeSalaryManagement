@@ -9,5 +9,6 @@ namespace EmployeeSalaryManagement.Application
         Task<List<Salary>> GetSalaryDetailsByEmpID(int empId);
         Task<List<Salary>> GetSalaryDetailsMonthAndYearwise(string month, string year,int userId);
         Task<Employee> SaveEmployee(Employee employee);
+        Task<Employee> UpdateEmployee(Employee employee);
     }
 }
